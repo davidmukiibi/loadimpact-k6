@@ -7,7 +7,7 @@ login_loadimpact: &login_loadimpact
   run:
     name: Logging into loadimpact
     command: |
-      k6 login cloud
+      k6 login cloud --token $K6_CLOUD_TOKEN
 
 # run_any_tests_here: &run_any_tests_here
 #   run:
