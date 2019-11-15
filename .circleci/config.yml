@@ -20,9 +20,9 @@ deploy_to_staging: &deploy_to_staging
   run:
     name: Deploy to the staging environment on Google Kubernetes Engine
     command: |
-      docker build -t gcr.io/loadimpact/k6:$CIRCLE_SHA1 .
-      docker push gcr.io/loadimpact/k6:$CIRCLE_SHA1
-      kubectl set image loadimpact/k6:latest staging-api=gcr.io/loadimpact/k6:$CIRCLE_SHA1
+      docker build -t gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1 .
+      docker push gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1
+      kubectl set image loadimpact/k6-tutorial:latest staging-api=gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1
 
 k6_performance_tests: &k6_performance_tests
   run:
