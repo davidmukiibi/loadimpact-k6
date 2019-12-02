@@ -18,6 +18,7 @@ main() {
     then
         authorize
     elif [ $1 == 'revoke' ]
+    then
         revoke
     else
         echo 'Do you want to revoke or authorize?'
