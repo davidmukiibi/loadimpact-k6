@@ -8,8 +8,9 @@ setup: &setup
   run:
     name: Installing aws cli and setting it up
     command: |
-      chmod 777 setup.sh
-      ./setup.sh
+      ls
+      # chmod 777 setup.sh
+      # ./setup.sh
 
 authorize_circleci_through_firewall: &authorize_circleci_through_firewall
   run:
