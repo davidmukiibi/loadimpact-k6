@@ -1,7 +1,7 @@
 default: &defaults
   parallelism: 1
   docker:
-    - image: loadimpact/k6:latest
+    - image: ubuntu:latest
 
 
 setup: &setup
