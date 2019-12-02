@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -ex
-set -o pipefail
+# set -o pipefail
 
 public_ip_address=$(curl -q http://checkip.amazonaws.com)
 

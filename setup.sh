@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -ex
-set -o pipefail
+# set -o pipefail
 
 update_cache() {
     apt-get update
