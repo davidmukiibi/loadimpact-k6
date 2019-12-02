@@ -24,7 +24,7 @@ install_aws_cli() {
 
 configuring_aws() {
     /root/bin/aws configure set aws_access_key_id $AWS_ACCESS_KEY
-    /root/bin/aws configure set aws_secret_access_key $AWSSECRET_ACCESS_KEY
+    /root/bin/aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     /root/bin/aws configure set default.region us-west-2
     /root/bin/aws configure set default.output json
 }
