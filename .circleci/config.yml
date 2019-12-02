@@ -9,15 +9,14 @@ setup: &setup
     name: Installing aws cli and setting it up
     command: |
       chmod 777 setup.sh
-      ./setup.sh
+      sh setup.sh
 
 authorize_circleci_through_firewall: &authorize_circleci_through_firewall
   run:
     name: Adding firewall rule to allow circleci through aws security group
     command: |
-      ls
-      # chmod 777 permit.sh
-      # ./permit.sh authorize
+      chmod 777 permit.sh
+      sh permit.sh authorize
 
 revoke_circleci_through_firewall: &revoke_circleci_through_firewall
   run:
