@@ -16,7 +16,7 @@ authorize_circleci_through_firewall: &authorize_circleci_through_firewall
     name: Adding firewall rule to allow circleci through aws security group
     command: |
       chmod 777 permit.sh
-      sh permit.sh authorize
+      sh permit.sh
 
 revoke_circleci_through_firewall: &revoke_circleci_through_firewall
   run:
