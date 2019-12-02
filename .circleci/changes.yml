@@ -1,0 +1,24 @@
+
+# Block 1
+login_loadimpact: &login_loadimpact
+  run:
+    name: Logging into loadimpact
+    command: |
+      k6 login cloud --token $K6_CLOUD_TOKEN
+
+# block 2
+k6_performance_tests: &k6_performance_tests
+  run:
+    name: Running Load Tests Using K6
+    command: |
+      k6 cloud tests/cloud-test.js
+
+# block 3
+  run_perfomance_tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - *login_loadimpact
+      - *k6_performance_tests
+
+
