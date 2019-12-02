@@ -4,7 +4,7 @@ set -ex
 set -o pipefail
 
 update_cache() {
-    sudo apt update
+    apt update
 }
 
 install_aws_cli() {
