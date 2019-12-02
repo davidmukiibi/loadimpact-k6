@@ -22,7 +22,7 @@ main() {
         revoke
     else
         echo 'Do you want to revoke or authorize?'
-    done
+    fi
 
 }
 
