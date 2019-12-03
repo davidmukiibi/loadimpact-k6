@@ -32,14 +32,7 @@ k6_performance_tests: &k6_performance_tests
 
 version: 2
 jobs:
-  run_perfomance_tests:
-    <<: *defaults
-    steps:
-      - checkout
-      # - *login_loadimpact
-      - *k6_performance_tests
-
-  setup_and_authorize_test:
+  setup_authorize_test_revoke:
     <<: *defaults
     steps:
       - checkout
@@ -48,21 +41,8 @@ jobs:
       - *k6_performance_tests
       - *revoke_circleci_through_firewall
 
-  revoke:
-    <<: *defaults
-    steps:
-      - checkout
-      - *revoke_circleci_through_firewall
-
-
 workflows:
   version: 2
   build-workflow:
     jobs:
       - setup_and_authorize_test
-      # - run_perfomance_tests:
-      #     requires:
-      #       - setup_and_authorize
-      # - revoke:
-      #     requires:
-      #       - run_perfomance_tests
