@@ -22,8 +22,8 @@ revoke_circleci_through_firewall: &revoke_circleci_through_firewall
   run:
     name: Remove firewall rule to deny circleci aws security group access
     command: |
-      chmod 777 permit.sh
-      ./permit.sh revoke
+      chmod 777 revoke.sh
+      sh revoke.sh
 
 login_loadimpact: &login_loadimpact
   run:
@@ -94,13 +94,22 @@ jobs:
       - *setup
       - *authorize_circleci_through_firewall
 
+  revoke:
+    <<: *defaults
+    steps:
+      - checkout
+      - *revoke_circleci_through_firewall
+
 
 
 workflows:
   version: 2
 
   build-workflow:
-    # jobs:
+    jobs:
+      - setup_and_authorize
+      - run_perfomance_tests
+      - revoke
       # - run_any_tests
       # - deploy_to_staging_environment:
       #     requires:
@@ -114,9 +123,10 @@ workflows:
   #           branches:
   #             only:
   #               - circleci-20-test
-    jobs:
-      - setup_and_authorize
-      - run_perfomance_tests
+    # jobs:
+    #   - setup_and_authorize
+    #   - run_perfomance_tests
+    #   - revoke
       # - deploy_to_production_environment:
       #     requires:
       #       - run_perfomance_tests
