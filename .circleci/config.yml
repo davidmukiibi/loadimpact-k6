@@ -45,4 +45,4 @@ workflows:
   version: 2
   build-workflow:
     jobs:
-      - setup_and_authorize_test
+      - setup_authorize_test_revoke
