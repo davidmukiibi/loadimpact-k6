@@ -3,7 +3,6 @@ default: &defaults
   docker:
     - image: ubuntu:latest
 
-
 setup: &setup
   run:
     name: Installing aws cli and setting it up
@@ -25,67 +24,20 @@ revoke_circleci_through_firewall: &revoke_circleci_through_firewall
       chmod 777 revoke.sh
       sh revoke.sh
 
-login_loadimpact: &login_loadimpact
-  run:
-    name: Logging into loadimpact
-    command: |
-      k6 login cloud --token $K6_CLOUD_TOKEN
-
-run_any_tests_here: &run_any_tests_here
-  run:
-    name: Run Tests
-    command: |
-      cd tests_folder
-      npm run test
-
-deploy_to_staging: &deploy_to_staging
-  run:
-    name: Deploy to the staging environment on Google Kubernetes Engine
-    command: |
-      docker build -t gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1 .
-      docker push gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1
-      kubectl set image loadimpact/k6-tutorial:latest staging-api=gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1
-
 k6_performance_tests: &k6_performance_tests
   run:
     name: Running Load Tests Using K6
     command: |
       k6 cloud tests/cloud-test.js
 
-deploy_to_production: &deploy_to_production
-  run:
-    name: Deploy to the production environment on Google Kubernetes Engine
-    command: |
-      docker build -t gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1 .
-      docker push gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1
-      kubectl set image loadimpact/k6-tutorial:latest production-api=gcr.io/loadimpact/k6-tutorial:$CIRCLE_SHA1
-
 version: 2
 jobs:
-  run_any_tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - *run_any_tests_here
-
-  deploy_to_staging_environment:
-    <<: *defaults
-    steps:
-      - checkout
-      - *deploy_to_staging
-
   run_perfomance_tests:
     <<: *defaults
     steps:
       - checkout
       # - *login_loadimpact
       - *k6_performance_tests
-
-  deploy_to_production_environment:
-    <<: *defaults
-    steps:
-      - checkout
-      - *deploy_to_production
 
   setup_and_authorize:
     <<: *defaults
@@ -101,33 +53,14 @@ jobs:
       - *revoke_circleci_through_firewall
 
 
-
 workflows:
   version: 2
-
   build-workflow:
     jobs:
       - setup_and_authorize
-      - run_perfomance_tests
-      - revoke
-      # - run_any_tests
-      # - deploy_to_staging_environment:
-      #     requires:
-      #       - run_any_tests
-
-  # test-workflow:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 0 * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - circleci-20-test
-    # jobs:
-    #   - setup_and_authorize
-    #   - run_perfomance_tests
-    #   - revoke
-      # - deploy_to_production_environment:
-      #     requires:
-      #       - run_perfomance_tests
-
+      - run_perfomance_tests:
+          requires:
+            - setup_and_authorize
+      - revoke:
+          requires:
+            - run_perfomance_tests
